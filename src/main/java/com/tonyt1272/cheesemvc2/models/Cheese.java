@@ -1,12 +1,20 @@
 package com.tonyt1272.cheesemvc2.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  * Created by LaunchCode
  */
+@Entity//Flag that tells springboot that this class with be stored in a database
 public class Cheese {
+
+    @Id//this designates id as a primary key in the database
+    @GeneratedValue//Tells Hibernate to generate this value for us
+    private int id;
 
     @NotNull
     @Size(min=3, max=15)
@@ -18,26 +26,16 @@ public class Cheese {
 
     private CheeseType type;
 
-    private int cheeseId;
-    private static int nextId = 1;
-
     public Cheese(String name, String description) {
-        this();
         this.name = name;
         this.description = description;
     }
 
     public Cheese() {
-        cheeseId = nextId;
-        nextId++;
     }
 
-    public int getCheeseId() {
-        return cheeseId;
-    }
-
-    public void setCheeseId(int cheeseId) {
-        this.cheeseId = cheeseId;
+    public int getId() {
+        return id;
     }
 
     public String getName() {

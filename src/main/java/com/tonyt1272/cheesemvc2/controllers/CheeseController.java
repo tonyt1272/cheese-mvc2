@@ -1,8 +1,9 @@
 package com.tonyt1272.cheesemvc2.controllers;
 
 import com.tonyt1272.cheesemvc2.models.Cheese;
-import com.tonyt1272.cheesemvc2.models.CheeseData;
 import com.tonyt1272.cheesemvc2.models.CheeseType;
+import com.tonyt1272.cheesemvc2.models.data.CheeseDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -20,11 +21,14 @@ import javax.validation.Valid;
 @RequestMapping("cheese")
 public class CheeseController {
 
+    @Autowired//This implements the CheeseDao interface for us to use below
+    private CheeseDao cheeseDao;//and we will automatically have an instance of it
     // Request path: /cheese
+
     @RequestMapping(value = "")
     public String index(Model model) {
 
-        model.addAttribute("cheeses", CheeseData.getAll());
+        model.addAttribute("cheeses", cheeseDao.findAll());
         model.addAttribute("title", "My Cheeses");
 
         return "cheese/index";
@@ -47,13 +51,13 @@ public class CheeseController {
             return "cheese/add";
         }
 
-        CheeseData.add(newCheese);
+        cheeseDao.save(newCheese);
         return "redirect:";
     }
 
     @RequestMapping(value = "remove", method = RequestMethod.GET)
     public String displayRemoveCheeseForm(Model model) {
-        model.addAttribute("cheeses", CheeseData.getAll());
+        model.addAttribute("cheeses", cheeseDao.findAll());
         model.addAttribute("title", "Remove Cheese");
         return "cheese/remove";
     }
@@ -62,7 +66,7 @@ public class CheeseController {
     public String processRemoveCheeseForm(@RequestParam int[] cheeseIds) {
 
         for (int cheeseId : cheeseIds) {
-            CheeseData.remove(cheeseId);
+            cheeseDao.deleteById(cheeseId);
         }
 
         return "redirect:";
