@@ -1,0 +1,5 @@
+<root>
+    <item name='org.junit.experimental.categories.Category'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>

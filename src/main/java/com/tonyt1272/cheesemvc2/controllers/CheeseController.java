@@ -1,7 +1,7 @@
 package com.tonyt1272.cheesemvc2.controllers;
 
 import com.tonyt1272.cheesemvc2.models.Cheese;
-import com.tonyt1272.cheesemvc2.models.CheeseType;
+import com.tonyt1272.cheesemvc2.models.data.CategoryDao;
 import com.tonyt1272.cheesemvc2.models.data.CheeseDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +21,9 @@ import javax.validation.Valid;
 @RequestMapping("cheese")
 public class CheeseController {
 
+    @Autowired
+    private CategoryDao categoryDao;
+
     @Autowired//This implements the CheeseDao interface for us to use below
     private CheeseDao cheeseDao;//and we will automatically have an instance of it
     // Request path: /cheese
@@ -38,19 +41,26 @@ public class CheeseController {
     public String displayAddCheeseForm(Model model) {
         model.addAttribute("title", "Add Cheese");
         model.addAttribute(new Cheese());
-        model.addAttribute("cheeseTypes", CheeseType.values());
+
+        model.addAttribute("categories", categoryDao.findAll());
         return "cheese/add";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddCheeseForm(@ModelAttribute  @Valid Cheese newCheese,
-                                       Errors errors, Model model) {
+                                       Errors errors, @RequestParam int categoryId, Model model) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Cheese");
+            model.addAttribute("categories",categoryDao.findAll());
             return "cheese/add";
         }
 
+       //Category cat = categoryDao.findById(categoryId);
+
+        //Category cat = categoryDao.findById(categoryId);
+
+        //newCheese.setCategory()
         cheeseDao.save(newCheese);
         return "redirect:";
     }
