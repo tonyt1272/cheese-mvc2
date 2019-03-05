@@ -1,6 +1,7 @@
 package com.tonyt1272.cheesemvc2.controllers;
 
 
+import com.tonyt1272.cheesemvc2.models.Cheese;
 import com.tonyt1272.cheesemvc2.models.Menu;
 import com.tonyt1272.cheesemvc2.models.data.CheeseDao;
 import com.tonyt1272.cheesemvc2.models.data.MenuDao;
@@ -74,6 +75,23 @@ public class MenuController {
         model.addAttribute("form",form);
 
         return "menu/add-item";
+
+    }
+
+    @RequestMapping(value ="add-item", method = RequestMethod.POST)
+    public String addItem(Model model, @ModelAttribute @Valid AddMenuItemForm form, Errors errors){
+
+        if (errors.hasErrors()) {
+            model.addAttribute("form", form);
+            return "menu/add-item";
+        }
+
+        Cheese theCheese = cheeseDao.findById(form.getCheeseId()).get();
+        Menu theMenu = menuDao.findById(form.getMenuId()).get();
+        theMenu.addItem(theCheese);
+        menuDao.save(theMenu);
+
+        return "redirect:/menu/view/"+ theMenu.getId();
 
     }
 
