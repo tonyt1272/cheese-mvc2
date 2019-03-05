@@ -1,5 +1,6 @@
 package com.tonyt1272.cheesemvc2.controllers;
 
+import com.tonyt1272.cheesemvc2.models.Category;
 import com.tonyt1272.cheesemvc2.models.Cheese;
 import com.tonyt1272.cheesemvc2.models.data.CategoryDao;
 import com.tonyt1272.cheesemvc2.models.data.CheeseDao;
@@ -56,11 +57,12 @@ public class CheeseController {
             return "cheese/add";
         }
 
-       //Category cat = categoryDao.findById(categoryId);
 
-        //Category cat = categoryDao.findById(categoryId);
 
-        //newCheese.setCategory()
+        Category cat = categoryDao.findById(categoryId).get();
+
+
+        newCheese.setCategory(cat);
         cheeseDao.save(newCheese);
         return "redirect:";
     }

@@ -28,13 +28,13 @@ public class Cheese {
     @ManyToOne
     private Category category;
 
-//    public Category getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(Category category) {
-//        this.category = category;
-//    }
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public Cheese(String name, String description) {
         this.name = name;
