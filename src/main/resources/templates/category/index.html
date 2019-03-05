@@ -9,11 +9,13 @@
 <nav th:replace="fragments :: navigation"></nav>
 
 <!--<p th:unless="${cheeses} and ${cheeses.size()}">no cheese :(</p>-->
-
+<br/>
+<div class="container">
 <ul th:each="category : ${categories}">
 
     <li th:text="${category.name}"></li>
 </ul>
+</div>
 <!--<table class="table">-->
 
     <!--&lt;!&ndash;<tr>&ndash;&gt;-->
