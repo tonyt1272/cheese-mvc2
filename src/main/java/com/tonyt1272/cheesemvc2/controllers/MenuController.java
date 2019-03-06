@@ -59,7 +59,7 @@ public class MenuController {
     public String viewMenu(Model model, @PathVariable int menuId){
 
         Menu menu = menuDao.findById(menuId).get();
-        model.addAttribute("title", menu.getName());
+        model.addAttribute("title","Menu:  "+ menu.getName());
         model.addAttribute("menu",menu);
 
         return "menu/view";

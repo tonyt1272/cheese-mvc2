@@ -10,10 +10,9 @@
 
 <!--<p th:unless="${cheeses} and ${cheeses.size()}">no cheese :(</p>-->
 <br/>
-<div class="container">
-<ul th:each="category : ${categories}">
-
-    <li th:text="${category.name}"></li>
+<div >
+<ul >
+    <li th:each="category : ${categories}" th:text="${category.name}"></li>
 </ul>
 </div>
 <a href="/category/add">Add Category </a> |
