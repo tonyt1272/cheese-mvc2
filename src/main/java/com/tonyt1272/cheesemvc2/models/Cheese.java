@@ -8,8 +8,12 @@ import java.util.List;
 /**
  * Created by LaunchCode
  */
+
+
 @Entity//Flag that tells springboot that this class with be stored in a database
 public class Cheese {
+
+    public static int holdId;
 
     @Id//this designates id as a primary key in the database
     @GeneratedValue//Tells Hibernate to generate this value for us

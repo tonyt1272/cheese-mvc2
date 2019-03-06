@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -81,6 +78,56 @@ public class CheeseController {
             cheeseDao.deleteById(cheeseId);
         }
 
+        return "redirect:";
+    }
+
+    @RequestMapping(value = "edit/{cheeseId}", method = RequestMethod.GET)
+    public String displayEditForm(Model model, @PathVariable("cheeseId") int cheeseId){
+
+        Cheese theCheese=cheeseDao.findById(cheeseId).get();
+        model.addAttribute("cheese", theCheese);
+        String theName = theCheese.getName();
+        String title = "Edit "+theName+" (id = "+cheeseId+")";
+        model.addAttribute("title",title);
+        model.addAttribute("categories", categoryDao.findAll());
+        Cheese.holdId=cheeseId;
+        return "cheese/edit";
+        //return "redirect:";
+    }
+
+
+    @RequestMapping(value = "edit",  method = RequestMethod.POST)
+    public String processEditForm(Model model, @RequestParam int cheeseId, String name, String description,
+                                  int categoryId, @Valid Cheese cheese, Errors errors){
+
+        if(errors.hasErrors()){
+
+            model.addAttribute("categories", categoryDao.findAll());
+            model.addAttribute("cheese", cheese);
+
+            String theName =cheeseDao.findById(cheeseId).get().getName();
+            String title = "Edit "+theName+" (id = "+cheeseId+")";
+            model.addAttribute("title",title);
+            model.addAttribute("cheeseId",cheeseId);
+
+            return "cheese/edit";
+
+//            return "cheese/edit";
+
+        }
+
+            Category theCategory = categoryDao.findById(categoryId).get();
+            Cheese theCheese = cheeseDao.findById(Cheese.holdId).get();
+            theCheese.setName(name);
+            theCheese.setCategory(theCategory);
+            theCheese.setDescription(description);
+            cheeseDao.save(theCheese);
+//        System.out.println(CheeseData.holdId);
+//        CheeseData.getById(CheeseData.holdId).setName(name);
+//        CheeseData.getById(CheeseData.holdId).setDescription(description);
+//        CheeseData.getById(CheeseData.holdId).setType(cheese.getType());
+//        CheeseData.getById(CheeseData.holdId).setRating(cheese.getRating());
+//        CheeseData.holdId = 0;
         return "redirect:";
     }
 

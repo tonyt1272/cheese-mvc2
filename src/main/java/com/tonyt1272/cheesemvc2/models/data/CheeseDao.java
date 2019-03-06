@@ -13,4 +13,5 @@ import javax.transaction.Transactional;
 @Repository//makes Spring boot aware that this is a repository
 @Transactional//Specifies that all interface methods should be wrapped in a database transaction
 public interface CheeseDao extends CrudRepository<Cheese,Integer> {
+
 }
